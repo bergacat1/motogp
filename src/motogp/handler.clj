@@ -7,6 +7,7 @@
             [compojure.route :as route]
             [motogp.routes.home :refer [home-routes]]
             [motogp.routes.auth :refer [auth-routes]]
+            [motogp.routes.pilots :refer [pilot-routes]]
             [noir.session :as session]
             [ring.middleware.session.memory
              :refer [memory-store]]
@@ -26,7 +27,8 @@
 (def app
   (->
     (handler/site
-      (routes auth-routes
+      (routes pilot-routes
+              auth-routes
               home-routes
               app-routes))
     (wrap-base-url)

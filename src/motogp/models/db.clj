@@ -14,11 +14,30 @@
       [:id "varchar(20) PRIMARY KEY"]
       [:pass "varchar(100)"])))
 
+(defn create-pilot-table []
+  (sql/with-connection
+    db
+    (sql/drop-table :pilots)
+    (sql/create-table
+      :pilots
+      [:name "varchar(50) PRIMARY KEY"]
+      [:country "varchar(20)"]
+      [:category "varchar(20)"]
+      [:company "varchar(20)"])))
+
 (defn add-user-record [user]
   (sql/with-connection db
                        (sql/insert-record :users user)))
 
+(defn add-pilot-record [pilot]
+  (sql/with-connection db
+                       (sql/insert-record :pilots pilot)))
 (defn get-user [id]
   (sql/with-connection db
                        (sql/with-query-results
                          res ["select * from users where id = ?" id] (first res))))
+
+(defn read-pilots []
+  (sql/with-connection db
+                       (sql/with-query-results
+                         res ["select * from pilots" ] res)))
