@@ -25,6 +25,13 @@
       [:category "varchar(20)"]
       [:company "varchar(20)"])))
 
+(defn create-category-table []
+  (sql/with-connection
+    db
+    (sql/create-table
+      :category
+      [:name "varchar(50) PRIMARY KEY"])))
+
 (defn add-user-record [user]
   (sql/with-connection db
                        (sql/insert-record :users user)))
@@ -41,3 +48,12 @@
   (sql/with-connection db
                        (sql/with-query-results
                          res ["select * from pilots" ] res)))
+
+(defn read-categories []
+  (sql/with-connection db
+                       (sql/with-query-results
+                         res ["select * from category" ] res)))
+
+(defn add-category-record [category]
+  (sql/with-connection db
+                       (sql/insert-record :category category)))

@@ -10,7 +10,8 @@
                    (layout/common [:h1 {:id "userid"} (str "Hello user: " (session/get :user) ) ]
                                   [:body
                                    [:ul
-                                    [:li (link-to "/pilots" "Pilots")]]])
+                                    [:li (link-to "/pilots" "Pilots")]
+                                    [:li (link-to "/categories" "Categories")]]])
                    (redirect "/login"))
   )
 

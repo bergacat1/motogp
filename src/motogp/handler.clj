@@ -8,6 +8,7 @@
             [motogp.routes.home :refer [home-routes]]
             [motogp.routes.auth :refer [auth-routes]]
             [motogp.routes.pilots :refer [pilot-routes]]
+            [motogp.routes.categories :refer [category-routes]]
             [noir.session :as session]
             [ring.middleware.session.memory
              :refer [memory-store]]
@@ -27,7 +28,8 @@
 (def app
   (->
     (handler/site
-      (routes pilot-routes
+      (routes category-routes
+              pilot-routes
               auth-routes
               home-routes
               app-routes))

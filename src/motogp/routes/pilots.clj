@@ -5,7 +5,8 @@
             [motogp.routes.home ]
             [noir.session :as session]
             [noir.response :refer [redirect]]
-            [hiccup.form :refer :all]))
+            [hiccup.form :refer :all]
+            [hiccup.element :refer :all]))
 
 (defn show-pilots []
   (for [{:keys [name country category company]} (db/read-pilots)]
@@ -29,11 +30,12 @@
                [:p "Country:"]
                (text-field "country")
                [:p "Category:"]
-               (text-field "category")
+               [:select (select-options (map (comp reverse vec) (db/read-categories)))]
                [:p "Company:"]
                (text-field "company")
                [:br]
-               (submit-button "Save")))
+               (submit-button "Save"))
+      (link-to "/" "Torna a l'inici"))
     (redirect "/login")))
 
 
