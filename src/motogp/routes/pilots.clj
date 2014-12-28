@@ -30,7 +30,7 @@
                [:p "Country:"]
                (text-field "country")
                [:p "Category:"]
-               [:select (select-options (map (comp reverse vec) (db/read-categories)))]
+               [:select {:name "category"} (select-options (map (comp reverse vec) (db/read-categories)))]
                [:p "Company:"]
                (text-field "company")
                [:br]

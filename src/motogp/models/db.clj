@@ -52,7 +52,7 @@
 (defn read-categories []
   (sql/with-connection db
                        (sql/with-query-results
-                         res ["select * from category" ] res)))
+                         res ["select * from category" ] (doall res))))
 
 (defn add-category-record [category]
   (sql/with-connection db
