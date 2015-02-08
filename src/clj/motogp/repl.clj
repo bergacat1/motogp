@@ -1,6 +1,7 @@
 (ns motogp.repl
   (:use motogp.handler
         ring.server.standalone
+        org.httpkit.server
         [ring.middleware file-info file]))
 
 (defonce server (atom nil))
@@ -21,12 +22,7 @@
   [& [port]]
   (let [port (if port (Integer/parseInt port) 8080)]
     (reset! server
-            (serve (get-handler)
-                   {:port port
-                    :init init
-                    :auto-reload? true
-                    :destroy destroy
-                    :join true}))
+            (run-server handler {:port port}))
     (println (str "You can view the site at http://localhost:" port))))
 
 (defn stop-server []

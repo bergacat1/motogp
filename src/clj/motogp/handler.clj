@@ -10,6 +10,7 @@
             [motogp.routes.pilots :refer [pilot-routes]]
             [motogp.routes.categories :refer [category-routes]]
             [noir.session :as session]
+            [org.httpkit.server :as http-kit]
             [ring.middleware.session.memory
              :refer [memory-store]]
             [noir.validation
@@ -24,6 +25,19 @@
 (defroutes app-routes
            (route/resources "/")
            (route/not-found "Not Found"))
+(defn handler [req]
+  (http-kit/with-channel req channel              ; get the channel
+    ;; communicate with client using method defined above
+    (http-kit/on-close channel (fn [status]
+                        (println "channel closed")))
+    (if (http-kit/websocket? channel)
+      (println "WebSocket channel")
+      (println "HTTP channel"))
+    (http-kit/on-receive channel (fn [data]       ; data received from client
+           ;; An optional param can pass to send!: close-after-send?
+           ;; When unspecified, `close-after-send?` defaults to true for HTTP channels
+           ;; and false for WebSocket.  (send! channel data close-after-send?)
+                          (http-kit/send! channel data)))))
 
 (def app
   (->
